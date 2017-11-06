@@ -1,6 +1,6 @@
+
 '''
 Created on Nov 5, 2017
-
 @author: Monica
 '''
 from domeniu import *
@@ -22,17 +22,17 @@ def menuTxt(optiuni,info):
             return
         if cmd=='add':
             optiuni[1][0](info)
-            info=adaugaListaUndo(info)
+            setUndo(info,adaugaListaUndo(info))
         elif cmd=='del':
             optiuni[2][0](info)
-            info=adaugaListaUndo(info)
+            setUndo(info,adaugaListaUndo(info))
         elif cmd=='find':
             optiuni[3][0](info)
         elif cmd=='rap':
             optiuni[4][0](info)
         elif cmd=='fil':
             optiuni[5][0](info)
-            info=adaugaListaUndo(info)
+            setUndo(info,adaugaListaUndo(info))
         elif cmd=="printL":
             optiuni[6][0](info)
         elif cmd=="undo":
@@ -105,10 +105,8 @@ def ui_adaugaTranzactieTxt(info):
     lista=getLista(info)
     phrase=getPhrase(info)
     erori=""
-    zi=stringToInt(phrase[1])
-    validareZi(zi,erori)
-    suma=stringToFloat(phrase[2])
-    validareSuma(suma, erori)
+    zi=validareZiTxt(phrase[1])
+    suma=validareSumaTxt(phrase[2])
     tip=phrase[3]
     validareTip(tip, erori)
     adaugaTranzactie(lista,zi,suma,tip)
@@ -123,10 +121,8 @@ def ui_actualizareTranzactieTxt(info):
     lista=getLista(info)
     phrase=getPhrase(info)
     erori=""
-    zi=stringToInt(phrase[1])
-    validareZi(zi, erori)
-    suma=stringToFloat(phrase[2])
-    validareSuma(suma,erori)
+    zi=validareZiTxt(phrase[1])
+    suma=validareSumaTxt(phrase[2])
     tip=phrase[3]
     validareTip(tip, erori)
     tr={}
@@ -134,8 +130,7 @@ def ui_actualizareTranzactieTxt(info):
     setSuma(tr,suma)
     setTip(tr,tip)
     validareTranzactie(tr)
-    sumaNoua=(float)(phrase[4])
-    validareSuma(sumaNoua, erori)
+    sumaNoua=validareSumaTxt(phrase[4])
     tipNou=phrase[5]
     validareTip(tipNou, erori)
     if tr in lista:
@@ -154,8 +149,7 @@ def ui_stergeTranzactieZiTxt(info):
     erori=""
     lista=getLista(info)
     phrase=getPhrase(info)
-    ziua=stringToInt(phrase[1])
-    validareZi(ziua,erori)
+    ziua=validareZiTxt(phrase[1])
     sters=stergeTranzactieZi(lista,ziua)
     if sters==0:
         print("Ziua data nu se afla in baza de date!Introduceti una valida sau alegeti alta comanda!\n")
@@ -171,10 +165,8 @@ def ui_stergeTranzactiePerioadaTxt(info):
     lista=getLista(info)
     phrase=getPhrase(info)
     erori=""
-    ziInceput=stringToInt(phrase[1])
-    validareZi(ziInceput,erori)
-    ziSfarsit=stringToInt(phrase[2])
-    validareZi(ziSfarsit, erori)
+    ziInceput=validareZiTxt(phrase[1])
+    ziSfarsit=validareZiTxt(phrase[2])
     if ziInceput<ziSfarsit:
         sters=stergeTranzactiePerioada(lista,ziInceput,ziSfarsit)
         print("Tranzactii sterse cu succes!\n")
@@ -207,8 +199,7 @@ def ui_tiparesteTranzactiiSumaTxt(info):
     lista=getLista(info)
     phrase=getPhrase(info)
     erori=""
-    suma=stringToFloat(phrase[1])
-    validareSuma(suma,erori)
+    suma=validareSumaTxt(phrase[1])
     tiparit=tiparesteTranzactiiSuma(lista,suma)
     if tiparit==0:
         print("Nu au fost gasite tranzactii mai mari decat suma data.Dati alta suma sau alegeti alta comanda!\n")
@@ -223,11 +214,8 @@ def ui_tiparesteTranzactiiZiSumaTxt(info):
     '''
     lista=getLista(info)
     phrase=getPhrase(info)
-    erori=""
-    zi=stringToInt(phrase[1])
-    validareZi(zi,erori)
-    suma=stringToFloat(phrase[2])
-    validareSuma(suma,erori)
+    zi=validareZiTxt(phrase[1])
+    suma=validareSumaTxt(phrase[2])
     tiparit=tiparesteTranzactiiZiSuma(lista,zi,suma)
     if tiparit==0:
         print("Nu au fost gasite tranzactii efectuate inainte de ziua data si mai mari ca suma. Adaugati alte valori sau alegeti alta comanda!\n")
@@ -277,8 +265,7 @@ def ui_soldContTxt(info):
     lista=getLista(info)
     phrase=getPhrase(info)
     erori=""
-    zi=stringToInt(phrase[1])
-    validareZi(zi, erori)
+    zi=validareZiTxt(phrase[1])
     sold=soldCont(lista,zi)
     exista=verificareExistenta(lista,zi)
     if exista==1 :
@@ -313,8 +300,7 @@ def ui_eliminaTranzactiiSumaDataTxt(info):
     lista=getLista(info)
     phrase=getPhrase(info)
     erori=""
-    suma=stringToFloat(phrase[1])
-    validareSuma(suma, erori)
+    suma=validareSumaTxt(phrase[1])
     eliminat=eliminaTranzactiiSumaData(lista,suma)
     if eliminat==0:
         print("Nu s-au gasit tranzactii cu suma data. Actualizati baza de date sau alegti alta comanda.\n")
@@ -331,8 +317,7 @@ def ui_eliminaTranzactiiMaiMiciSumaTxt(info):
     lista=getLista(info)
     phrase=getPhrase(info)
     erori=""
-    suma=stringToFloat(phrase[1])
-    validareSuma(suma, erori)
+    suma=validareSumaTxt(phrase[1])
     tip=phrase[2]
     validareTip(tip, erori)
     eliminat=eliminaTranzactiiMaiMiciSuma(lista,suma,tip)
@@ -341,4 +326,3 @@ def ui_eliminaTranzactiiMaiMiciSumaTxt(info):
     else:
         print("Eliminare efectuata cu succes!\n")            
 
-    
