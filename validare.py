@@ -46,16 +46,23 @@ def validareTip(tip,erori):
         erori+="Tipul nu este valid!Trebuie sa fie de intrare sau iesire\n"
     verifErori(erori)
     
-def stringToInt(phrase):
-    try:
+def validareZiTxt(phrase):
+    erori=""
+    if checkInt(phrase)==True:
         zi=int(phrase)
+        validareZi(zi,erori)
         return zi
-    except ValueError:
-        raise("Comanda invalida!")
-        
-def stringToFloat(phrase):
-    try:
+    else:
+        erori+="Comanda invalida"
+    verifErori(erori)
+    
+def validareSumaTxt(phrase):
+    erori=""
+    if checkFloat(phrase)==True: 
         suma=float(phrase)
+        validareSuma(suma, erori)
         return suma
-    except ValueError:
-        raise("Comanda invalida!")
+    else:
+        erori+="Comanda invalida"
+    verifErori(erori)
+    
